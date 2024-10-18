@@ -5,26 +5,107 @@ date: "2024-10-18"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+
+### Ejercicio 1
+Aplicar los criterios de decisión bajo incertidumbre al siguiente problema:
+Tenemos tres posibles escenarios y tres posibles decisiones a tomar. La decisión 1 conlleva unos beneficios de 5, 3 y 9 unidades en cada uno de los escenarios. La decisión 2 conlleva unos beneficios de 0, 12 y 4 unidades en cada escenario. Por último, la decisión 3 implica unas ganancias de 10, 1 y 6 unidades en cada escenario. 
+
+```{r}
+source("teoriadecision_funciones_incertidumbre.R")
+
+tb2.1 = crea.tablaX(c(5,3,9,
+                     0,12,4,
+                     10,1,6), numalternativas = 3, numestados = 3)
+tb2.1
+
+
 ```
 
-## R Markdown
+A continuación, vamos a ver la decisión que tomaríamos dependiendo del método escogido.
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+#### WALD
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+```{r}
+wald=criterio.Wald(tb2.1)
+wald
 ```
 
-## Including Plots
+La opción más favorable según el método de Wald es d1.
 
-You can also embed plots, for example:
+####  OPTIMISTA
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r}
+opt=criterio.Optimista(tb2.1)
+opt
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+La opción más favorable según el método Optimista es d2.
+
+#### HURWICZ
+
+```{r}
+h=criterio.Hurwicz(tb2.1)
+h
+```
+
+La opción más favorable según el método de Hurwicz es d1.
+
+#### SAVAGE
+
+```{r}
+sav=criterio.Savage(tb2.1)
+sav
+```
+
+La opción más favorable según el método Savage es d1.
+
+#### LAPLACE
+
+```{r}
+lap=criterio.Laplace(tb2.1)
+lap
+```
+
+Las opciones d1 y d3 son las óptimas según el criterio de Laplace.
+
+#### PUNTO IDEAL
+
+```{r}
+p.id=criterio.PuntoIdeal(tb2.1)
+p.id
+```
+
+La opción más favorable según el método del punto ideal es d1.
+
+
+### CONCLUSIÓN
+```{r}
+cr=criterio.Todos(tb2.1)
+cr
+
+```
+
+Tras aplicar los diferentes métodos que conocemos vemos que 
+la mejor decisión que podemos tomar es d1.
+
+
+## Ejercicio 2
+*Un fondo de inversiones estudia realizar una inversión en uno de entre 5 productos financieros distintos. Dependiendo del comportamiento de la bolsa a nivel global, los rendimientos esperados para las inversiones (i1, i2, i3, i4, i5) son:  
+Para la inversión 1: 0, 12, 3, 20 (millones de euros)  
+Para la inversión 2: 8, 9, 9, 9 (millones de euros)  
+Para la inversión 3: 5, 8, 14, 7 (millones de euros)  
+Elegir una inversión justificando la decisión tomada.*
+
+
+```{r}
+tb2.2 = crea.tablaX(c(0,12,3,20,
+                      8,9,9,9,
+                      5,8,14,7), numalternativas = 3, numestados = 4)
+tb2.2
+
+c=criterio.Todos(tb2.2)
+c
+
+```
+### Conclusión:
+Tras aplicar los métodos de decisión bajo incertidumbre que conocemos, la inversión a realizar es la inversión i2. Vemos que la inversión 1 es la elegida cuando tenemos un criterio optimista a la hora de elegir, pero en el resto de casos la inversión 2 presenta unos rendimientos superiores al resto.
