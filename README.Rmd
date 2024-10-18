@@ -1,0 +1,9 @@
+---
+title: "README"
+author: "Mario Cutillas"
+date: "2024-10-18"
+output: html_document
+---
+En este repositorio encontramos varios archivos. Podemos ver un archivo con los enunciados de dos problemas de teoría de la decisión bajo incertidumbre, y otro archivo con dichos enunciados y la resolución de los ejercicios. Estos se han resuelto usando los razonamientos, métodos y funciones vistos en clase.
+Para realizar los ejercicios se han usando varias funciones, que se encuentran en el archivo "teoriadecision_funciones_incertidumbre.R".
+En cuanto a la metodología, este trabajo se ha realizado 
