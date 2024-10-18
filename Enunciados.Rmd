@@ -1,0 +1,21 @@
+---
+title: "Enunciados"
+author: "Mario Cutillas"
+date: "2024-10-17"
+output: html_document
+---
+
+##Enunciados de ejercicios de teoría de la decisión bajo incertidumbre
+
+## Ejercicio 1
+Aplicar los criterios de decisión bajo incertidumbre al siguiente problema:
+Tenemos tres posibles escenarios y tres posibles decisiones a tomar. La decisión 1 conlleva unos beneficios de 5, 3 y 9 unidades en cada uno de los escenarios. La decisión 2 conlleva unos beneficios de 0, 12 y 4 unidades en cada escenario. Por último, la decisión 3 implica unas ganancias de 10, 1 y 6 unidades en cada escenario. 
+
+
+
+##Ejercicio 2
+Un fondo de inversiones estudia realizar una inversión en uno de entre 5 productos financieros distintos. Dependiendo del comportamiento de la bolsa a nivel global, los rendimientos esperados para las inversiones (i1, i2, i3, i4, i5) son:  
+Para la inversión 1: 0, 12, 3, 20 (millones de euros)  
+Para la inversión 2: 8, 9, 9, 9 (millones de euros)  
+Para la inversión 3: 5, 8, 14, 7 (millones de euros)  
+Elegir una inversión justificando la decisión tomada.

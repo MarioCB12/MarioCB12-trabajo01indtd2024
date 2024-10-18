@@ -1,0 +1,631 @@
+---
+title: "Ejercicios resueltos"
+author: "Irene Pantoja Reina"
+date: "2024-09-30"
+output:
+  pdf_document:
+    latex_engine: xelatex
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+## 1. Irene Pantoja Reina
+### Ejercicio 1.1
+Utiliza métodos de R studio para la resolución del siguiente ejercicio de teoría de la decisión bajo incertidumbre. 
+```{r}
+source("teoriadecision_funciones_incertidumbre.R")
+e1=c(550,300,250,450)
+e2=c(600,250,350,400)
+e3=c(550,400,250,450)
+tabla=crea.tablaX(c(e1,e2,e3),4,3)
+
+library(kableExtra)
+library(knitr)
+ 
+kable(tabla)
+```
+
+A continuación, vamos a ver la decisión que tomaríamos dependiendo del método escogido.
+##### Caso favorable
+###### WALD
+
+```{r}
+wald=criterio.Wald(tabla)
+wald
+```
+
+La opción más favorable según el método de Wald es 'd3'.
+
+######  OPTIMISTA
+
+```{r}
+optimista=criterio.Optimista(tabla)
+optimista
+```
+
+La opción más favorable según el método Optimista es 'd2'.
+
+###### HURWICZ
+
+```{r}
+hurwicz=criterio.Hurwicz(tabla)
+hurwicz
+```
+
+La opción más favorable según el método de Hurwicz es 'd3'.
+
+###### SAVAGE
+
+```{r}
+savage=criterio.Savage(tabla)
+savage
+```
+
+La opción más favorable según el método Savage es 'd3'.
+
+###### LAPLACE
+
+```{r}
+laplace=criterio.Laplace(tabla)
+laplace
+```
+
+La opción más favorable según el método de Laplace es 'd3'.
+
+###### PUNTO IDEAL
+
+```{r}
+puntoideal=criterio.PuntoIdeal(tabla)
+puntoideal
+```
+
+La opción más favorable según el método del punto ideal es 'd3'.
+
+
+###### CONCLUSIÓN
+```{r}
+criterio_todo=criterio.Todos(tabla)
+library(kableExtra)
+kable(criterio_todo)
+```
+
+Podemos concluir que la mejor decisión que podemos tomar es 'd3'.
+
+##### Caso desfavorable
+
+###### WALD
+
+```{r}
+wald2=criterio.Wald(tabla,favorable = F)
+wald2
+```
+
+La opción elegida según el método de Wald es 'd4'.
+
+######  OPTIMISTA
+
+```{r}
+optimista2=criterio.Optimista(tabla,favorable = F)
+optimista2
+```
+
+Las opciones elegidas según el método Optimista son 'd1', 'd2' y 'd4'.
+
+###### HURWICZ
+
+```{r}
+hurwicz2=criterio.Hurwicz(tabla,favorable = F)
+hurwicz2
+```
+
+La opción elegida según el método de Hurwicz es 'd4'.
+
+###### SAVAGE
+
+```{r}
+savage2=criterio.Savage(tabla,favorable = F)
+savage2
+```
+
+Las opciones elegidas según el método Savage son 'd1' y 'd4'.
+
+###### LAPLACE
+
+```{r}
+laplace2=criterio.Laplace(tabla,favorable = F)
+laplace2
+```
+
+Las opciones elegidas según el método de Laplace son 'd1' y 'd4'.
+
+###### PUNTO IDEAL
+
+```{r}
+puntoideal2=criterio.PuntoIdeal(tabla,favorable = F)
+puntoideal2
+```
+
+Las opciones elegidas según el método del punto ideal son 'd1' y 'd4'.
+
+
+###### CONCLUSIÓN
+```{r}
+criterio_todo2=criterio.Todos(tabla,favorable = F)
+library(kableExtra)
+kable(criterio_todo2)
+```
+
+Podemos concluir que la mejor decisión que podemos tomar es 'd4', al ser la que más métodos dan por buena.
+
+### Ejercicio 1.2
+Carlos es un estudiante a punto de terminar Estadística que está planteándose varias alternativas para su futuro, entre las que quiere elegir aquella en la que consiga ahorrar la mayor cantidad de dinero en los primeros 5 años tras terminarla, ya que tiene como finalidad reunir el máximo dinero posible para la entrada de una vivienda propia. 
+La verdadera vocación de Carlos ha sido siempre ser profesor de Matemáticas en un instituto público de secundaria, pero quiere saber si merecerá la pena perseguir su sueño, o por el contrario es preferible elegir otra de las opciones que tiene en mente. El principal inconveniente es que todas las alternativas tienen irregularidades dependiendo de factores externos, lo que hace que el dinero que perciba por cada una de ellas varíe.
+
+- La primera opción que se plantea es **aceptar una de las plazas fijas como profesor** que se le han concedido por haber aprobado las oposiciones. Si obtuviese la plaza que ha solicitado en Santiponce, obtendría un sueldo de 1800€ mensuales, más dos pagas extraordinarias al año. Como el centro se encuentra en su municipio actual, podría seguir viviendo en casa de sus padres para así poder ahorrar lo máximo posible, aunque tendría unos gastos fijos en ocio y transporte de unos 300€ al mes. Por el contrario, si fuese enviado a su segunda opción, en Salamanca, el sueldo ascendería a 2250€ al mes en 14 pagas, pero tendría unos gastos mensuales de 1600€ al mes entre alquiler, transporte, comida, etc. Como ventaja, en este centro se le ofrece un plus de 225€ al mes si presenta un certificado C1 en una de las lenguas extranjeras que se imparten en el centro, pero conseguir dicho certificado conllevará un coste total de 1100€ entre clases y tasas de examen.
+
+- ⁠La segunda opción es **quedarse a trabajar en la empresa donde está realizando las prácticas**, donde recibiría un salario de 1450€ mensuales en 12 pagas prorrateadas y que además está junto a su casa, lo que le permitiría seguir viviendo con sus padres estos primeros 5 años y sólo tener 250€ mensuales de gasto, principalmente en ocio. La empresa, por acreditar un nivel C1 en una lengua extranjera le ascendería de categoría, por lo que pasaría a cobrar 200€ más, pero deberá pagar un curso de 650€ en dicha lengua y posteriormente presentarse al examen, que cuesta 150€. Se le plantea también la posibilidad de ser trasladado a la sede de Valladolid, donde realizaría tareas diferentes y por lo tanto su sueldo cambiaría. Allí cobraría 1950€, o 2150€ con el C1 acreditado, a los que habría que restar los 1500€ que supondría el vivir allí aproximadamente.
+
+- ⁠Como última opción, Carlos se plantea **hacer un máster** para complementar sus estudios. Para realizar dicho máster tendría que pagar 5500€ en una universidad privada, que le ofrece realizarlo de forma online, por lo que durante el año que dura la maestría podría mantener su trabajo en la empresa que está junto a su casa y por la que recibía un salario de 1450€ al mes (menos gastos), o 1650€ si acreditaba el idioma. Al finalizar el máster, optaría a un puesto de trabajo con mejores condiciones y más especializado en la misma empresa de antes, donde recibiría un salario de 1900€ en 12 pagas, o de 2100€ si acreditase el idioma. Si decidiese ser enviado a la sede de Valladolid, su sueldo ascendería a 2400€ (o 2600€ con el idioma), pero tendría unos gastos mensuales fijos de 1400€.
+
+
+Las tres decisiones son: ser profesor, quedarse trabajando en la empresa donde está haciendo las prácticas (sin opción de cambiar de puesto) o hacer un máster.
+
+Los estados de la naturaleza son: quedarse aquí y no tener idioma, quedarse aquí y acreditar el idioma,
+irse fuera y no acreditar el idioma, o irse fuera y acreditar el idioma.
+
+```{r}
+m11=(1800-300)*14*5
+m12=(1800-300)*14*5
+m13=(2250-1600)*14*5
+m14=(2250+225-1600)*14*5 -1100 
+m21=(1450-250)*12*5
+m22=(1450+200-250)*12*5 -800
+m23=(1950-1500)*12*5
+m24=(1950+200-1500)*12*5 -800 
+m31=-5500+(1450-250)*12+(1900-250)*12*4
+m32=-5500 +(1450+200-250)*12+(1900+200-250)*12*4 -800
+m33=-5500+(1450-250)*12+(2400-1400)*12*4
+m34=-5500+(1450+200-250)*12+(2400+200-1400)*12*4 -800
+
+source("teoriadecision_funciones_incertidumbre.R")
+tabla1=crea.tablaX(c(m11,m12,m13,m14,m21,m22,m23,m24,m31,m32,m33,m34),3,4)
+tabla1_criterios=criterio.Todos(tabla1)
+```
+
+La tabla inicial es:
+```{r}
+kable(tabla1)
+```
+
+La solución utilizando todos los criterios en el caso favorable es:
+```{r}
+kable(tabla1_criterios)
+```
+
+Como vemos, la opción de quedarse trabajando en la empresa donde está realizando las prácticas en el mismo puesto que ahora (d2) queda rechazada por todos los métodos utilizados. Entre los otros dos, la decisión depende del método que tomemos, pero principalmente la eligida es la opción de aceptar el puesto como profesor (d1).
+
+En caso desfavorable, la solución sería:
+```{r}
+tabla1_criterios_D=criterio.Todos(tabla1, favorable= F)
+kable(tabla1_criterios_D)
+```
+
+Por unanimidad, la opción elegida es la segunda (d2), es decir, quedarse trabajando en la empresa donde está realizando las prácticas actualmente, sin posibilidad de ascenso. 
+
+## 2. Mario Cutillas
+### Ejercicio 2.1
+Aplicar los criterios de decisión bajo incertidumbre al siguiente problema:
+Tenemos tres posibles escenarios y tres posibles decisiones a tomar. La decisión 1 conlleva unos beneficios de 5, 3 y 9 unidades en cada uno de los escenarios. La decisión 2 conlleva unos beneficios de 0, 12 y 4 unidades en cada escenario. Por último, la decisión 3 implica unas ganancias de 10, 1 y 6 unidades en cada escenario. 
+
+```{r}
+source("teoriadecision_funciones_incertidumbre.R")
+
+tb2.1 = crea.tablaX(c(5,3,9,
+                     0,12,4,
+                     10,1,6), numalternativas = 3, numestados = 3)
+tb2.1
+
+
+```
+
+A continuación, vamos a ver la decisión que tomaríamos dependiendo del método escogido.
+
+#### WALD
+
+```{r}
+wald=criterio.Wald(tb2.1)
+wald
+```
+
+La opción más favorable según el método de Wald es d1.
+
+####  OPTIMISTA
+
+```{r}
+opt=criterio.Optimista(tb2.1)
+opt
+```
+
+La opción más favorable según el método Optimista es d2.
+
+#### HURWICZ
+
+```{r}
+h=criterio.Hurwicz(tb2.1)
+h
+```
+
+La opción más favorable según el método de Hurwicz es d1.
+
+#### SAVAGE
+
+```{r}
+sav=criterio.Savage(tb2.1)
+sav
+```
+
+La opción más favorable según el método Savage es d1.
+
+#### LAPLACE
+
+```{r}
+lap=criterio.Laplace(tb2.1)
+lap
+```
+
+Las opciones d1 y d3 son las óptimas según el criterio de Laplace.
+
+#### PUNTO IDEAL
+
+```{r}
+p.id=criterio.PuntoIdeal(tb2.1)
+p.id
+```
+
+La opción más favorable según el método del punto ideal es d1.
+
+
+#### CONCLUSIÓN
+```{r}
+cr=criterio.Todos(tb2.1)
+cr
+
+```
+
+Tras aplicar los diferentes métodos que conocemos vemos que 
+la mejor decisión que podemos tomar es d1.
+
+
+### Ejercicio 2.2
+*Un fondo de inversiones estudia realizar una inversión en uno de entre 5 productos financieros distintos. Dependiendo del comportamiento de la bolsa a nivel global, los rendimientos esperados para las inversiones (i1, i2, i3, i4, i5) son:  
+Para la inversión 1: 0, 12, 3, 20 (millones de euros)  
+Para la inversión 2: 8, 9, 9, 9 (millones de euros)  
+Para la inversión 3: 5, 8, 14, 7 (millones de euros)  
+Elegir una inversión justificando la decisión tomada.*
+
+
+```{r}
+tb2.2 = crea.tablaX(c(0,12,3,20,
+                      8,9,9,9,
+                      5,8,14,7), numalternativas = 3, numestados = 4)
+tb2.2
+
+c=criterio.Todos(tb2.2)
+c
+
+```
+#### Conclusión:
+Tras aplicar los métodos de decisión bajo incertidumbre que conocemos, la inversión a realizar es la inversión i2. Vemos que la inversión 1 es la elegida cuando tenemos un criterio optimista a la hora de elegir, pero en el resto de casos la inversión 2 presenta unos rendimientos superiores al resto.
+
+
+
+## 3. Ángela Sánchez Rodríguez
+### Ejercicio 3.1
+Aplicar los criterios de decisión bajo incertidumbre a los problemas cuya matriz 
+de valores numéricos viene dada en la tabla siguiente:
+
+ ###### e1  ## e2  ## e3 |
+ #------------------------
+  #d1: |  5  |  4   |  6 |
+  #d2: |  2  |  3   |  1 |
+  #d3: | -1  |  7   |  6 |
+  #d4: |  5  |  2   |  0 |
+ #------------------------
+
+```{r}
+source("teoriadecision_funciones_incertidumbre.R")
+
+tb01 = crea.tablaX(c(5,4,6,
+                     2,3,1,
+                     -1,7,6,
+                     5,2,0), numalternativas = 4, numestados = 3)
+tb01
+```
+
+####CASO FAVORABLE ##########################################################
+### Criterio Pesimista (Wald) -------
+```{r}
+s01_wald_fav = criterio.Wald(tb01,T)
+s01_wald_fav 
+names(s01_wald_fav$AlternativaOptima) #La alternativa óptima es la d1.
+```
+
+###Criterio Optimista -------
+```{r}
+s01_optima_fav=criterio.Optimista(tb01,T)
+s01_optima_fav
+names(s01_optima_fav$AlternativaOptima) #La alternativa óptima es la d3
+```
+
+###Criterio de Hurwizc --------
+```{r}
+s01_hurwicz_fav=criterio.Hurwicz(tb01,alfa=0.4,T)
+s01_hurwicz_fav
+names(s01_hurwicz_fav$AlternativaOptima) #La alternativa óptima es la d1
+```
+
+###Criterio de Savage --------
+```{r}
+s01_savage_fav=criterio.Savage(tb01,T)
+s01_savage_fav
+names(s01_savage_fav$AlternativaOptima) #La alternativa óptima es d1
+```
+
+###Criterio de Laplace --------
+```{r}
+s01_laplace_fav=criterio.Laplace(tb01,T)
+s01_laplace_fav
+names(s01_laplace_fav$AlternativaOptima) #La alternativa optima es d1
+```
+
+###Criterio del Punto Ideal -------
+```{r}
+s01_pid_fav=criterio.PuntoIdeal(tb01,T)
+s01_pid_fav$AlternativaOptima #La alternativa optima es d1
+```
+
+##CASO DESFAVORABLE ############################################################
+### Criterio Pesimista (Wald) -------
+```{r}
+s01_wald_desf = criterio.Wald(tb01,F)
+s01_wald_desf
+names(s01_wald_desf$AlternativaOptima) #La alternativa óptima es la d2.
+```
+
+###Criterio Optimista -------
+```{r}
+s01_optima_desf=criterio.Optimista(tb01,F)
+s01_optima_desf
+names(s01_optima_desf$AlternativaOptima) #La alternativa óptima es la d3
+```
+
+###Criterio de Hurwizc --------
+```{r}
+s01_hurwicz_desf=criterio.Hurwicz(tb01,alfa=0.4,F)
+s01_hurwicz_desf
+names(s01_hurwicz_desf$AlternativaOptima) #La alternativa óptima es la d2
+```
+
+###Criterio de Savage --------
+```{r}
+s01_savage_desf=criterio.Savage(tb01,F)
+s01_savage_desf
+names(s01_savage_desf$AlternativaOptima) #La alternativa óptima es d2
+```
+
+###Criterio de Laplace --------
+```{r}
+s01_laplace_desf=criterio.Laplace(tb01,F)
+s01_laplace_desf
+names(s01_laplace_desf$AlternativaOptima) #La alternativa optima es d2
+```
+
+###Criterio del Punto Ideal -------
+```{r}
+s01_pid_desf=criterio.PuntoIdeal(tb01,F)
+s01_pid_desf
+s01_pid_desf$AlternativaOptima  #La alternativa optima es d2
+```
+
+CONCLUSION: para casos favorables, la mejor alternativa es d1,
+mientras que para casos desfavorables es d2.
+
+### Ejercicio 3.2
+Una empresa de marketing digital está evaluando tres posibles estrategias publicitarias para una nueva campaña. Dependiendo de la reacción del mercado (positivo, moderado o negativo), los ingresos proyectados (en miles de euros) son los siguientes:
+Publicidad en redes sociales: 100, 50, 1
+Publicidad en televisión: 80, 60, 30
+Publicidad en radio: 60, 40, 20 
+
+¿Cuál sería la opción que usted le recomendaría a la empresa?
+
+```{r}
+tb02=crea.tablaX(c(100,50,1,
+                   80,60,30,
+                   60,40,20),numalternativas = 3,numestados = 3)
+
+
+sol02=criterio.Todos(tb02,alfa = 0.5,favorable = T)
+sol02
+```
+
+CONCLUSION: la opción recomendada a la empresa es d2
+
+
+## 4. Alfonso López Santiago
+### Ejercicio 4.1
+Resuelve el siguiente ejercicio de teoría de la decisión bajo incertidumbre tanto para el caso favorable (beneficios) como para el desfavorable(costos).
+
+```{r}
+source("teoriadecision_funciones_incertidumbre.R")
+
+# Definición de las estrategias (ingresos en cientos de euros)
+e1 = c(55, 30, 25, 45)  # Estrategia 1
+e2 = c(60, 25, 35, 40)  # Estrategia 2
+e3 = c(55, 40, 25, 45)  # Estrategia 3
+
+
+datos = crea.tablaX(c(e1, e2, e3), 4, 3)
+print(datos)
+
+```
+
+### CASO FAVORABLE
+**1. Criterio de Wald**
+
+```{r}
+p1_pes_FAV = criterio.Wald(datos,T)
+names(p1_pes_FAV$AlternativaOptima)
+```
+
+**2. Criterio optimista**
+
+```{r}
+p1_opt_FAV = criterio.Optimista(datos,T)
+names(p1_opt_FAV$AlternativaOptima)
+```
+
+**3. Criterio de Hurwitcz**
+
+```{r}
+p1_hur_FAV = criterio.Hurwicz(datos,T)
+names(p1_hur_FAV$AlternativaOptima)
+```
+
+**4. Criterio de Savage**
+
+```{r}
+p1_sav_FAV = criterio.Savage(datos,T)
+names(p1_sav_FAV$AlternativaOptima)
+```
+
+**5. Criterio de Laplace**
+
+```{r}
+p1_lap_FAV = criterio.Laplace(datos,T)
+names(p1_lap_FAV$AlternativaOptima)
+```
+
+**6. Criterio del punto ideal**
+
+```{r}
+p1_pid_FAV = criterio.PuntoIdeal(datos,T)
+names(p1_pid_FAV$AlternativaOptima)
+```
+
+###### CONCLUSIÓN
+```{r}
+criterio_todo=criterio.Todos(datos)
+library(kableExtra)
+kable(criterio_todo)
+```
+
+### CASO DESFAVORABLE
+**1. Criterio de Wald**
+
+```{r}
+p1_pes_DESFAV = criterio.Wald(datos,F)
+names(p1_pes_DESFAV$AlternativaOptima)
+```
+
+**2. Criterio optimista**
+
+```{r}
+p1_opt_DESFAV = criterio.Optimista(datos,F)
+names(p1_opt_DESFAV$AlternativaOptima)
+```
+
+**3. Criterio de Hurwitcz**
+
+```{r}
+p1_hur_DESFAV = criterio.Hurwicz(datos,F)
+names(p1_hur_DESFAV$AlternativaOptima)
+```
+
+**4. Criterio de Savage**
+
+```{r}
+p1_sav_DESFAV = criterio.Savage(datos,F)
+names(p1_sav_DESFAV$AlternativaOptima)
+```
+
+**5. Criterio de Laplace**
+
+```{r}
+p1_lap_DESFAV = criterio.Laplace(datos,F)
+names(p1_lap_DESFAV$AlternativaOptima)
+```
+
+**6. Criterio del punto ideal**
+
+```{r}
+p1_pid_DESFAV = criterio.PuntoIdeal(datos,F)
+names(p1_pid_DESFAV$AlternativaOptima)
+```
+
+### Ejercicio 4.2
+Un equipo de fútbol está en los últimos 10 minutos de un partido muy cerrado y debe elegir una estrategia para atacar. El entrenador tiene tres alternativas tácticas, cada una con diferentes probabilidades de éxito dependiendo de lo que el equipo rival haga en esos momentos decisivos.
+
+- Estrategias disponibles:
+Atacar por las bandas
+Atacar por el centro
+Jugar balones largos (pases directos a los delanteros)
+- Escenarios posibles:
+Escenario 1: El equipo rival se queda con un jugador menos (expulsión)
+Escenario 2: El equipo rival juega a la defensiva y cierra los espacios
+Escenario 3: El equipo rival está buscando atacar y deja huecos en su defensa
+Escenario 4: El equipo rival presiona en todo el campo (presión alta)
+
+Probabilidades de éxito para cada estrategia en cada escenario:
+- Atacar por las bandas:
+
+Escenario 1: 85%
+Escenario 2: 40%
+Escenario 3: 80%
+Escenario 4: 50%
+- Atacar por el centro:
+
+Escenario 1: 50%
+Escenario 2: 30%
+Escenario 3: 90%
+Escenario 4: 60%
+- Jugar balones largos:
+
+Escenario 1: 60%
+Escenario 2: 70%
+Escenario 3: 70%
+Escenario 4: 80%
+
+Pregunta:
+Si no se puede prever con certeza cuál será el escenario en los últimos 10 minutos y todos los escenarios son igualmente probables, ¿qué estrategia debería usar el entrenador para maximizar las probabilidades de éxito?
+
+```{r}
+estrategia_bandas <- c(85, 40, 80, 50)  # Atacar por las bandas
+estrategia_centro <- c(50, 30, 90, 60)  # Atacar por el centro
+estrategia_largos <- c(60, 70, 70, 80)  # Jugar balones largos
+
+matriz_probabilidades <- matrix(c(estrategia_bandas, estrategia_centro, estrategia_largos), 
+                                nrow = 3, 
+                                byrow = TRUE)
+
+rownames(matriz_probabilidades) <- c("Atacar por las bandas", "Atacar por el centro", "Jugar balones largos")
+colnames(matriz_probabilidades) <- c("Escenario 1: Jugador menos", 
+                                     "Escenario 2: Defensivo", 
+                                     "Escenario 3: Atacando", 
+                                     "Escenario 4: Presión alta")
+
+
+kable(matriz_probabilidades)
+```
+
+```{r}
+tabla1_criterios=criterio.Todos(matriz_probabilidades)
+kable(tabla1_criterios)
+```
+
+La opción elegida en un mayor número de criterios es el de jugar balones largos.
+
